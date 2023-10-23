@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>MATLT</title>
+</head>
+
+<body>
+    <header>
+        <h2>Expert Knowledge-Based Trapezoidal Aggregation for Multi-Criteria Decision Making</h2>
+        <button id="fillBtn">Fill all forms</button>
+    </header>
+
+    <form id="inputForm">
+        <div id="alternatives">
+            <p>Number of Alternatives:</p>
+            <input id="altInp" type="number">
+            <button id="addAltBtn">Add</button>
+            <div id="altNames"></div>
+        </div>
+
+        <div id="criteria">
+            <p>Number of Criteria:</p>
+            <input id="critInp" type="number">
+            <button id="addCritBtn">Add</button>
+            <div id="critNames"></div>
+        </div>
+
+        <div id="terms">
+            <p>Number of Linguistic Terms:</p>
+            <input id="termsInp" type="number">
+            <button id="addTermsBtn">Add</button>
+            <div id="termNames"></div>
+        </div>
+
+        <div id="alpha">
+            <p>Alpha:</p>
+            <input type="number" id="alphaInp" step="0.1" min="0.1" max="0.9">
+        </div>
+
+        <button id="submitBtn">Submit all inputs</button>
+
+        <p>Or you can reset everything below</p>
+        <button type="button" id="resetBtn">Reset all inputs</button>
+    </form>
+
+    <button id="fillTable">Fill Table</button>
+    <div id="tableContainer"></div>
+
+    <button type="button" id="conToIntervals">Convert to intervals</button>
+    <div id="intervalsTableContainer"></div>
+
+    <button type="button" id="conToTrapLt">Convert to trapezoidal LT</button>
+    <div id="trapLtTableContainer"></div>
+
+    <button type="button" id="conToIntervalLt">Convert to interval estimates</button>
+    <div id="estimateLtTableContainer"></div>
+
+    <button type="button" id="calcPesimistic">Calculate pessimistic position</button>
+    <div id="pesContainer"></div>
+
+    <button type="button" id="calcOptimistic">Calculate optimistic position</button>
+    <div id="optContainer"></div>
+
+    <button type="button" id="calcNeutral">Calculate neutral position</button>
+    <div id="neuContainer"></div>
+
+    <!-- JS scripts -->
+    <script src="main.js"></script>
+    <script src="reset.js"></script>
+    <script src="alternatives.js"></script>
+    <script src="criteria.js"></script>
+    <script src="terms.js"></script>
+    <script src="generalTable.js"></script>
+    <script src="intervalsTable.js"></script>
+    <script src="alpha.js"></script>
+    <script src="trapLtTable.js"></script>
+    <script src="intervalEstimateTrapLt.js"></script>
+    <script src="pessimistic.js"></script>
+    <script src="optimistic.js"></script>
+    <script src="neutral.js"></script>
+    <!-- JS scripts -->
+</body>
+
+</html>
