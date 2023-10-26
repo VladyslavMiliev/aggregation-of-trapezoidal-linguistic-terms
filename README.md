@@ -1,6 +1,7 @@
 # Aggregation of Trapezoidal Linguistic Terms
 
 The Aggregation of Trapezoidal Linguistic Terms project is a web-based application that enables the aggregation of linguistic terms represented as trapezoidal fuzzy numbers using HTML and JavaScript. This project is particularly valuable in fuzzy logic systems and decision-making processes where linguistic terms need to be aggregated to facilitate informed decision-making.
+![image](https://github.com/VladyslavMilievNotAbot/aggregation-trapezious/assets/84059723/b153f43c-9441-4101-b0d3-671cfb48808a)
 
 # Features
 
