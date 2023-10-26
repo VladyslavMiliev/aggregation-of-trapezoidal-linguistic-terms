@@ -13,5 +13,6 @@ The Aggregation of Trapezoidal Linguistic Terms project is a web-based applicati
 
 This project is licensed under the MIT License.
 
-#Demo
+# Demo
+
 https://vladyslavmilievnotabot.github.io/aggregation-trapezious/
