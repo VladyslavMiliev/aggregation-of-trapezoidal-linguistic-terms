@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const termData = JSON.parse(localStorage.getItem("termData")) || [];
+  const termData = [];
   const altInput = document.getElementById("altInp");
   const critInput = document.getElementById("critInp");
   const intervalsTableContainer = document.getElementById(
@@ -53,43 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const altCount = parseInt(altInput.value);
     const critCount = parseInt(critInput.value);
 
-    createTable(critCount, altCount, termData); 
+    createTable(critCount, altCount, termData);
   });
 
-  function convertToInterval(combination, termData) {
-    console.log("Combination:", combination); // 
-    const terms = [];
-    if (combination) {
-      if (combination.includes("and")) {
-        const [term1, term2] = combination.split(" and ");
-        terms.push(
-          ...termData.filter(
-            (term) => term.short === term1 || term.short === term2
-          )
-        );
-      } else if (combination.startsWith("less than ")) {
-        const referenceTerm = combination.replace("less than ", "");
-        terms.push(
-          ...termData.filter(
-            (term) =>
-              term.l <= termData.find((t) => t.short === referenceTerm).l
-          )
-        );
-      } else if (combination.startsWith("greater than ")) {
-        const referenceTerm = combination.replace("greater than ", "");
-        terms.push(
-          ...termData.filter(
-            (term) =>
-              term.r >= termData.find((t) => t.short === referenceTerm).r
-          )
-        );
-      }
-    }
-    console.log("Interval Value:", terms); 
-
-    return terms
-      .sort((a, b) => a.l - b.l)
-      .map((term) => term.short)
-      .join(", ");
-  }
+  function convertToInterval() {}
 });
