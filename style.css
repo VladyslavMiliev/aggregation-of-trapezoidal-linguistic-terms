@@ -111,3 +111,17 @@ select {
   color: #000000;
   width: auto;
 }
+#chart-container1 {
+  width: 500px;
+  height: 300px;
+  margin: 0 auto;
+  background-color: rgb(0, 0, 0);
+  border-radius: 20px;
+}
+#chart-container2 {
+  width: 500px;
+  height: 300px;
+  margin: 0 auto;
+  background-color: rgb(0, 0, 0);
+  border-radius: 20px;
+}
