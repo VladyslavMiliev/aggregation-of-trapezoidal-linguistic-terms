@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   const addTermsBtn = document.getElementById("addTermsBtn");
-  const submitBtn = document.getElementById("submitBtn");
   const fillBtn = document.getElementById("fillBtn");
   const termsNamesDiv = document.getElementById("termNames");
   let termData = [];
@@ -54,9 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
       `Short name of #${index} LT`,
       "text"
     );
-    const lInput = createInput(`b${index}lInp`, "Left", "number", 0, 100);
-    const mInput = createInput(`b${index}mInp`, "Middle", "number", 0, 100);
-    const rInput = createInput(`b${index}rInp`, "Right", "number", 0, 100);
+    const lInput = createInput(`b${index}lInp`, "Left", "number", 0, 10000);
+    const mInput = createInput(`b${index}mInp`, "Middle", "number", 0, 10000);
+    const rInput = createInput(`b${index}rInp`, "Right", "number", 0, 10000);
 
     termDiv.appendChild(fnameInput);
     termDiv.appendChild(snameInput);
@@ -79,23 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     return input;
-  }
-
-  function collectTermData() {
-    const termInputs = document.querySelectorAll(".term input");
-    let termData = [];
-
-    for (let i = 0; i < termInputs.length; i += 5) {
-      termData.push({
-        full: termInputs[i].value,
-        short: termInputs[i + 1].value,
-        l: parseInt(termInputs[i + 2].value) || 0,
-        m: parseInt(termInputs[i + 3].value) || 0,
-        r: parseInt(termInputs[i + 4].value) || 0,
-      });
-    }
-
-    return termData;
   }
 
   function populateTermInputs(data) {
