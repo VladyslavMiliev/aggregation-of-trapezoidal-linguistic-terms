@@ -168,15 +168,15 @@ document.addEventListener("DOMContentLoaded", function () {
   function drawLines(ctx, chartWidth, chartHeight, termData) {
     const xAxisY = chartHeight - 50;
     const yAxisX = 50;
-  
+
     ctx.strokeStyle = "white"; // Set the line color to blue, you can change this as needed
     ctx.lineWidth = 2;
-  
+
     termData.forEach((term) => {
       const x1 = yAxisX + (term.l / roundedMaxValue) * (chartWidth - 100);
       const x2 = yAxisX + (term.m / roundedMaxValue) * (chartWidth - 100);
       const x3 = yAxisX + (term.r / roundedMaxValue) * (chartWidth - 100);
-  
+
       // Draw lines
       ctx.beginPath();
       ctx.moveTo(x1, xAxisY);
@@ -184,28 +184,27 @@ document.addEventListener("DOMContentLoaded", function () {
       ctx.lineTo(x3, xAxisY);
       ctx.stroke();
     });
-    
   }
-  
+
   function lineGraph(ctx, ctx1, termData) {
     const chartWidth = 500;
     const chartHeight = 300;
-  
+
     canvas1.width = chartWidth;
     canvas1.height = chartHeight;
     canvas2.width = chartWidth;
     canvas2.height = chartHeight;
-  
+
     ctx.clearRect(0, 0, canvas1.width, canvas1.height);
     ctx1.clearRect(0, 0, canvas2.width, canvas2.height);
-  
+
     drawAxesAndLabels(ctx, chartWidth, chartHeight, termData);
     drawAxesAndLabels(ctx1, chartWidth, chartHeight);
-  
+
     drawLines(ctx, chartWidth, chartHeight, termData);
     drawLines(ctx1, chartWidth, chartHeight, termData);
   }
-  
+
   function addUniqueInterval(dropdown, value, addedIntervals) {
     if (!addedIntervals.has(value)) {
       addedIntervals.add(value);
@@ -236,14 +235,14 @@ document.addEventListener("DOMContentLoaded", function () {
     let termData = [];
 
     for (let i = 0; i < termInputs.length; i += 5) {
-      const rValue = parseInt(termInputs[i + 4].value);
+      const rValue = parseFloat(termInputs[i + 4].value);
       if (!isNaN(rValue)) {
         // Check if rValue is a valid integer
         termData.push({
           full: termInputs[i].value,
           short: termInputs[i + 1].value,
-          l: parseInt(termInputs[i + 2].value) || 0,
-          m: parseInt(termInputs[i + 3].value) || 0,
+          l: parseFloat(termInputs[i + 2].value) || 0,
+          m: parseFloat(termInputs[i + 3].value) || 0,
           r: rValue,
         });
       }
@@ -270,57 +269,12 @@ document.addEventListener("DOMContentLoaded", function () {
     createTable(altInput.value, critInput.value);
   });
 
-  fillTableBtn.addEventListener("click", function () {
-    fillTableRandomly();
-  });
-
-  function fillTableRandomly() {
-    const table = document.querySelector("table");
-    if (!table) {
-      alert("Table not found!");
-      return;
-    }
-
-    const dropdowns = document.querySelectorAll("select");
-
-    if (dropdowns.length === 0) {
-      alert("No drop-down menus found!");
-      return;
-    }
-
-    const rows = table.querySelectorAll("tr");
-
-    rows.forEach((row, rowIndex) => {
-      if (rowIndex === 0) {
-        return;
-      }
-
-      const cells = row.querySelectorAll("td");
-
-      cells.forEach((cell, cellIndex) => {
-        if (cellIndex === 0) {
-          return;
-        }
-
-        const dropdown = dropdowns[cellIndex - 1];
-
-        if (dropdown && dropdown.options.length > 0) {
-          const randomIndex = Math.floor(
-            Math.random() * dropdown.options.length
-          );
-          const selectedValue = dropdown.options[randomIndex].value;
-          dropdown.value = selectedValue;
-        }
-      });
-    });
-  }
-
   function validateTermData() {
     const termInputs = document.querySelectorAll(".term input");
     for (let i = 0; i < termInputs.length; i += 5) {
-      const left = parseInt(termInputs[i + 2].value);
-      const middle = parseInt(termInputs[i + 3].value);
-      const right = parseInt(termInputs[i + 4].value);
+      const left = parseFloat(termInputs[i + 2].value);
+      const middle = parseFloat(termInputs[i + 3].value);
+      const right = parseFloat(termInputs[i + 4].value);
 
       if (isNaN(left) || isNaN(middle) || isNaN(right)) {
         alert("Please enter valid numeric values for boundaries.");
