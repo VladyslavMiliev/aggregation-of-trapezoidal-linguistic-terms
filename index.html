@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>MATLT</title>
 </head>
@@ -45,8 +45,10 @@
         <p>Or you can reset everything below</p>
         <button type="button" id="resetBtn">Reset all inputs</button>
     </form>
-    <canvas id="chart-container1"></canvas>
-    <canvas id="chart-container2"></canvas>
+    <div id="chart-container-wrapper">
+        <canvas id="chart-container1"></canvas>
+        <canvas id="chart-container2"></canvas>
+    </div>
     <br> <button id="fillTable">Fill Table</button>
     <div id="tableContainer"></div>
 
@@ -74,8 +76,8 @@
     <script src="alternatives.js"></script>
     <script src="criteria.js"></script>
     <script src="terms.js"></script>
-    <script src="generalTable.js"></script>
-    <script src="intervalsTable.js"></script>
+    <script type="module" src="generalTable.js"></script>
+    <script type="module" src="intervalsTable.js"></script>
     <script src="alpha.js"></script>
     <script src="trapLtTable.js"></script>
     <script src="intervalEstimateTrapLt.js"></script>
