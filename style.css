@@ -5,11 +5,10 @@
 }
 
 body {
-  background: linear-gradient(
-    257deg,
-    rgb(124, 104, 138) 0%,
-    rgb(235, 135, 135) 50%,
-    rgb(250, 221, 187) 100%
+  background: radial-gradient(
+    circle,
+    rgba(87, 147, 236, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
   );
 
   font-family: "JetBrains Mono", monospace;
@@ -50,7 +49,6 @@ input[type="number"]::-webkit-inner-spin-button {
   appearance: none;
 }
 
-/* Styles for buttons */
 button {
   background-color: #ffffff;
   color: #000;
@@ -77,7 +75,6 @@ table {
   margin-left: auto;
   margin-right: auto;
   font-size: 12px;
-  border-radius: 4px;
 }
 
 th {
@@ -111,18 +108,23 @@ select {
   color: #000000;
   width: auto;
 }
+#chart-container-wrapper {
+  position: relative;
+  display: none;
+  overflow: hidden;
+}
 #chart-container1 {
   width: 500px;
   height: 300px;
   margin: 0 auto;
-  background-color: rgb(0, 0, 0);
+  background-color: #ffffff;
   border-radius: 20px;
 }
 #chart-container2 {
   width: 500px;
   height: 300px;
   margin: 0 auto;
-  background-color: rgb(0, 0, 0);
+  background-color: #ffffff;
   border-radius: 20px;
 }
 #intervalsTableContainer {
@@ -130,11 +132,10 @@ select {
 }
 @media (max-width: 768px) {
   body {
-    background: linear-gradient(
-      257deg,
-      rgb(124, 104, 138) 0%,
-      rgb(235, 135, 135) 50%,
-      rgb(250, 221, 187) 100%
+    background: radial-gradient(
+      circle,
+      rgba(87, 147, 236, 1) 0%,
+      rgba(148, 187, 233, 1) 100%
     );
   }
 
