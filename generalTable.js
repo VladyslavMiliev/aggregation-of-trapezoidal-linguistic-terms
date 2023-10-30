@@ -1,3 +1,6 @@
+let termData = [];
+let selections = [];
+export { termData, selections };
 document.addEventListener("DOMContentLoaded", function () {
   const tableContainer = document.getElementById("tableContainer");
   const submitBtn = document.getElementById("submitBtn");
@@ -8,18 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const canvas2 = document.getElementById("chart-container2");
   const ctx = canvas1.getContext("2d");
   const ctx1 = canvas2.getContext("2d");
-  let termData = [];
-  let selections = [];
   let roundedMaxValue;
-  function createTableCell(terms, randomFill) {
+  function createTableCell(terms, randomFill, row, col) {
     const cell = document.createElement("td");
     const dropdown = createDropdownWithIntervals(terms, randomFill);
-    dropdown.addEventListener("change", (event) => {
-      const selectedValue = event.target.value;
-      selections.push(selectedValue);
-      console.log("Selected value: ", selectedValue);
-      console.log(selections, termData);
-    });
+    dropdown.addEventListener("change", onDropdownChange);
     cell.appendChild(dropdown);
     return cell;
   }
@@ -101,15 +97,17 @@ document.addEventListener("DOMContentLoaded", function () {
   function drawAxesAndLabels(ctx, chartWidth, chartHeight, termData) {
     const xAxisY = chartHeight - 50;
     const yAxisX = 50;
-    ctx.strokeStyle = "white";
+
+    ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
+    ctx.clearRect(0, 0, chartWidth, chartHeight);
     if (Array.isArray(termData)) {
       ctx.beginPath();
       ctx.moveTo(yAxisX, xAxisY);
       ctx.lineTo(chartWidth - 50, xAxisY);
       ctx.stroke();
-      ctx.font = "14px JetBrains Mono";
-      ctx.fillStyle = "white";
+      ctx.font = "15px JetBrains Mono";
+      ctx.fillStyle = "black";
       ctx.beginPath();
       ctx.moveTo(yAxisX, 50);
       ctx.lineTo(yAxisX, chartHeight - 50);
@@ -134,8 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillText(i.toFixed(1), yAxisX - 40, y + 5);
       }
     }
-    ctx.font = "14px JetBrains Mono";
-    ctx.fillStyle = "white";
+    ctx.font = "15px JetBrains Mono";
+    ctx.fillStyle = "black";
     if (roundedMaxValue > 0) {
       ctx1.beginPath();
       ctx1.moveTo(yAxisX, xAxisY);
@@ -169,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const xAxisY = chartHeight - 50;
     const yAxisX = 50;
 
-    ctx.strokeStyle = "white"; // Set the line color to blue, you can change this as needed
+    ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
 
     termData.forEach((term) => {
@@ -177,12 +175,30 @@ document.addEventListener("DOMContentLoaded", function () {
       const x2 = yAxisX + (term.m / roundedMaxValue) * (chartWidth - 100);
       const x3 = yAxisX + (term.r / roundedMaxValue) * (chartWidth - 100);
 
-      // Draw lines
       ctx.beginPath();
       ctx.moveTo(x1, xAxisY);
-      ctx.lineTo(x2, 50); // Middle boundary
+      ctx.lineTo(x2, 50);
       ctx.lineTo(x3, xAxisY);
       ctx.stroke();
+
+      // Add black dots at the endpoints
+      ctx.beginPath();
+      ctx.arc(x1, xAxisY, 4, 0, Math.PI * 2);
+      ctx.fillStyle = "#ff75d1";
+      ctx.fill();
+      ctx.closePath();
+
+      ctx.beginPath();
+      ctx.arc(x2, 50, 4, 0, Math.PI * 2);
+      ctx.fillStyle = "#ff75d1";
+      ctx.fill();
+      ctx.closePath();
+
+      ctx.beginPath();
+      ctx.arc(x3, xAxisY, 4, 0, Math.PI * 2);
+      ctx.fillStyle = "#ff75d1";
+      ctx.fill();
+      ctx.closePath();
     });
   }
 
@@ -237,7 +253,6 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < termInputs.length; i += 5) {
       const rValue = parseFloat(termInputs[i + 4].value);
       if (!isNaN(rValue)) {
-        // Check if rValue is a valid integer
         termData.push({
           full: termInputs[i].value,
           short: termInputs[i + 1].value,
@@ -250,7 +265,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     return termData;
   }
+  function updateSelections(row, col, selectedValue) {
+    if (!selections[row]) {
+      selections[row] = [];
+    }
+    selections[row][col] = selectedValue;
+  }
+  function onDropdownChange(event) {
+    const selectedValue = event.target.value;
+    const cell = event.target.parentElement;
+    const row = cell.parentElement.rowIndex - 1; // -1 because header row
+    const col = cell.cellIndex - 1; // -1 because header cell
 
+    if (row >= 0 && col >= 0) {
+      updateSelections(row, col, selectedValue);
+      console.log(selections, termData);
+    }
+  }
   submitBtn.addEventListener("click", function (event) {
     event.preventDefault();
 
@@ -262,11 +293,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let maxValue = Math.max(...termData.map((term) => term.r));
     roundedMaxValue = Math.ceil(maxValue);
-    console.log(roundedMaxValue);
-
     lineGraph(ctx, ctx1, termData);
 
     createTable(altInput.value, critInput.value);
+    document.getElementById("chart-container-wrapper").style.display = "block";
   });
 
   function validateTermData() {
