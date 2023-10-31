@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   addTermsBtn.addEventListener("click", function (event) {
     event.preventDefault();
-    const termsCount = parseInt(document.getElementById("termsInp").value);
+    const termsCount = parseFloat(document.getElementById("termsInp").value);
     if (!isNaN(termsCount)) {
       termsNamesDiv.innerHTML = "";
 

@@ -1,3 +1,64 @@
+let intervalEstimates = [];
+import { trapLtMatrix } from "./trapLtTable.js";
+export { intervalEstimates };
+// Function to calculate the interval estimates based on the given formula
+function calculateIntervalEstimates(alpha, trapLtMatrix) {
+  for (let i = 0; i < trapLtMatrix.length; i++) {
+    const row = [];
+    for (let j = 0; j < trapLtMatrix[i].length; j++) {
+      const [a1, a2, a3, a4] = trapLtMatrix[i][j];
+      const I_L = alpha * (a2 - a1) + a1;
+      const I_R = a4 - alpha * (a4 - a3);
+      row.push([I_L.toFixed(2), I_R.toFixed(2)]);
+    }
+    intervalEstimates.push(row);
+  }
+
+  return intervalEstimates;
+}
+
+// Function to create and display the interval estimates table
+function createIntervalEstimatesTable(intervalEstimates, container) {
+  container.innerHTML = "";
+  const table = document.createElement("table");
+
+  // Create header row with column labels (C1, C2, ...)
+  const headerRow = document.createElement("tr");
+  headerRow.appendChild(createHeaderCell(" "));
+  for (let j = 0; j < intervalEstimates[0].length; j++) {
+    headerRow.appendChild(createHeaderCell("C" + (j + 1)));
+  }
+  table.appendChild(headerRow);
+
+  // Iterate through rows and columns of interval estimates
+  for (let i = 0; i < intervalEstimates.length; i++) {
+    const row = document.createElement("tr");
+    row.appendChild(createHeaderCell("x" + (i + 1)));
+    for (let j = 0; j < intervalEstimates[i].length; j++) {
+      const interval = intervalEstimates[i][j];
+      const cell = createCell(interval);
+      row.appendChild(cell);
+    }
+    table.appendChild(row);
+  }
+
+  container.appendChild(table);
+}
+
+// Function to create a table cell with interval estimate values
+function createCell(interval) {
+  const cell = document.createElement("td");
+  cell.textContent = `[${interval.join(", ")}]`;
+  return cell;
+}
+
+// Function to create a header cell with labels
+function createHeaderCell(label) {
+  const cell = document.createElement("th");
+  cell.textContent = label;
+  return cell;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const conToIntervalLtBtn = document.getElementById("conToIntervalLt");
   const estimateLtTableContainer = document.getElementById(
@@ -5,88 +66,9 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   conToIntervalLtBtn.addEventListener("click", function () {
-    const trapLtTableContainer = document.getElementById(
-      "trapLtTableContainer"
-    );
-    const trapLtTable = trapLtTableContainer.querySelector("table");
-    const trapLtRows = trapLtTable.querySelectorAll("tr");
     const alpha = parseFloat(document.getElementById("alphaInp").value);
-
-    const intervalLtTable = createIntervalLtTable(trapLtRows, alpha);
-
-    estimateLtTableContainer.innerHTML = "";
-    estimateLtTableContainer.appendChild(intervalLtTable);
+    const intervalEstimates = calculateIntervalEstimates(alpha, trapLtMatrix);
+    createIntervalEstimatesTable(intervalEstimates, estimateLtTableContainer);
+    console.log(intervalEstimates);
   });
-
-  function createIntervalLtTable(trapLtRows, alpha) {
-    const intervalLtTable = document.createElement("table");
-    const customLabels = [];
-
-    const topLabelRow = document.createElement("tr");
-    topLabelRow.appendChild(createTopLabelCell(""));
-
-    const trapLtHeaderRow = trapLtRows[0];
-    const trapLtHeaderCells = trapLtHeaderRow.querySelectorAll("th");
-
-    trapLtHeaderCells.forEach((trapLtHeaderCell, i) => {
-      if (trapLtHeaderCell.textContent.trim() !== "") {
-        customLabels.push(`C${customLabels.length + 1}`);
-        topLabelRow.appendChild(
-          createTopLabelCell(customLabels[customLabels.length - 1])
-        );
-      }
-    });
-
-    intervalLtTable.appendChild(topLabelRow);
-
-    for (let rowIndex = 1; rowIndex < trapLtRows.length; rowIndex++) {
-      const trapLtRow = trapLtRows[rowIndex];
-      const newRow = document.createElement("tr");
-      const cells = trapLtRow.querySelectorAll("td");
-
-      newRow.appendChild(createLeftLabelCell(`x${rowIndex}`));
-
-      cells.forEach((trapLtCell) => {
-        const trapLtValues = parseTrapLtCell(trapLtCell);
-        const [I_L, I_R] = calculateIntervalValues(alpha, trapLtValues);
-
-        newRow.appendChild(createIntervalLtCell(I_L, I_R));
-      });
-
-      intervalLtTable.appendChild(newRow);
-    }
-
-    return intervalLtTable;
-  }
-
-  function createTopLabelCell(labelText) {
-    const topLabelCell = document.createElement("th");
-    topLabelCell.textContent = labelText;
-    return topLabelCell;
-  }
-
-  function createLeftLabelCell(labelText) {
-    const leftLabelCell = document.createElement("th");
-    leftLabelCell.textContent = labelText;
-    return leftLabelCell;
-  }
-
-  function parseTrapLtCell(trapLtCell) {
-    return trapLtCell.textContent
-      .replace(/[()]/g, "")
-      .split(",")
-      .map((value) => parseFloat(value.trim()));
-  }
-
-  function calculateIntervalValues(alpha, trapLtValues) {
-    const I_L = alpha * (trapLtValues[1] - trapLtValues[0]) + trapLtValues[0];
-    const I_R = trapLtValues[3] - alpha * (trapLtValues[3] - trapLtValues[2]);
-    return [I_L.toFixed(2), I_R.toFixed(2)];
-  }
-
-  function createIntervalLtCell(I_L, I_R) {
-    const newCell = document.createElement("td");
-    newCell.textContent = `(${I_L}, ${I_R})`;
-    return newCell;
-  }
 });

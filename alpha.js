@@ -1,3 +1,5 @@
+let alphaInp = [];
+export { alphaInp };
 document.addEventListener("DOMContentLoaded", function () {
   const alphaInp = document.getElementById("alphaInp");
   const fillBtn = document.getElementById("fillBtn");
