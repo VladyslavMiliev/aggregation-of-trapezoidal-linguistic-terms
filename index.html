@@ -15,6 +15,7 @@
         <button id="fillBtn">Fill all forms</button>
     </header>
     <form id="inputForm">
+        <!-- Number of Alternatives -->
         <div id="alternatives">
             <p>Number of Alternatives:</p>
             <input id="altInp" type="number">
@@ -22,6 +23,7 @@
             <div id="altNames"></div>
         </div>
 
+        <!-- Number of Criteria -->
         <div id="criteria">
             <p>Number of Criteria:</p>
             <input id="critInp" type="number">
@@ -29,6 +31,7 @@
             <div id="critNames"></div>
         </div>
 
+        <!-- Number of Linguistic Terms -->
         <div id="terms">
             <p>Number of Linguistic Terms:</p>
             <input id="termsInp" type="number">
@@ -36,6 +39,7 @@
             <div id="termNames"></div>
         </div>
 
+        <!-- Alpha -->
         <div id="alpha">
             <p>Alpha:</p>
             <input type="number" id="alphaInp" step="0.1" min="0.1" max="0.9">
@@ -45,11 +49,17 @@
         <p>Or you can reset everything below</p>
         <button type="button" id="resetBtn">Reset all inputs</button>
     </form>
+
     <div id="chart-container-wrapper">
         <canvas id="chart-container1"></canvas>
         <canvas id="chart-container2"></canvas>
     </div>
-    
+
+    <!-- Uncomment if needed -->
+    <!--
+    <button id="fillTable">Fill Table</button>
+    -->
+
     <div id="tableContainer"></div>
 
     <button type="button" id="conToIntervals">Convert to intervals</button>
@@ -61,7 +71,7 @@
     <button type="button" id="conToIntervalLt">Convert to interval estimates</button>
     <div id="estimateLtTableContainer"></div>
 
-    <button type="button" id="calcPesimistic">Calculate pessimistic position</button>
+    <button type="button" id="calcPessimistic">Calculate pessimistic position</button>
     <div id="pesContainer"></div>
 
     <button type="button" id="calcOptimistic">Calculate optimistic position</button>
@@ -69,6 +79,7 @@
 
     <button type="button" id="calcNeutral">Calculate neutral position</button>
     <div id="neuContainer"></div>
+    <div id="aggrContainer"></div>
 
     <!-- JS scripts -->
     <script src="main.js"></script>
@@ -86,7 +97,6 @@
     <script type="module" src="neutral.js"></script>
     <script src="charts.js"></script>
     <!-- JS scripts -->
-
 </body>
 
 </html>
