@@ -279,9 +279,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (row >= 0 && col >= 0) {
       updateSelections(row, col, selectedValue);
-      console.log(selections, termData);
     }
   }
+  function fillTableRandomly() {
+    const rows = document.querySelectorAll("tr"); // Get all rows of the table
+    rows.forEach((row, rowIndex) => {
+      const cells = row.querySelectorAll("td"); // Get all cells in the row
+      cells.forEach((cell, colIndex) => {
+        const dropdown = cell.querySelector("select"); // Get the dropdown in the cell
+        if (dropdown) {
+          // Check if a dropdown exists
+          const options = dropdown.options;
+          const randomIndex = Math.floor(Math.random() * options.length);
+          const selectedOption = options[randomIndex];
+          dropdown.value = selectedOption.value;
+          // Update the selections array
+          updateSelections(rowIndex - 1, colIndex, selectedOption.value);
+        }
+      });
+    });
+  }
+
   submitBtn.addEventListener("click", function (event) {
     event.preventDefault();
 
@@ -289,14 +307,15 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     termData = collectTermData();
-    console.log(termData);
-
     let maxValue = Math.max(...termData.map((term) => term.r));
     roundedMaxValue = Math.ceil(maxValue);
     lineGraph(ctx, ctx1, termData);
-
+    console.log(termData);
     createTable(altInput.value, critInput.value);
     document.getElementById("chart-container-wrapper").style.display = "block";
+  });
+  fillTableBtn.addEventListener("click", function () {
+    fillTableRandomly();
   });
 
   function validateTermData() {

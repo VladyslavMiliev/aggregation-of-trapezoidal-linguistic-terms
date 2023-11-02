@@ -104,6 +104,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const intervals = convertSelectionsToIntervals(selections, termData);
     createTable(critCount, altCount, intervals);
-    console.log(intervals);
   });
 });

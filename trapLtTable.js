@@ -29,27 +29,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function convertIntervalToTrapezoidalLT(interval, termData) {
     const trapezoidalLT = [0, 0, 0, 0];
-
+  
+    // Find the maximum value in termData
+    const maxTermValue = termData.reduce((max, term) => {
+      const termMax = Math.max(term.l, term.m, term.r);
+      return termMax > max ? termMax : max;
+    }, 0);
+  
     if (interval.length > 1) {
       const leftmostTerm = termData.find((term) => term.short === interval[0]);
-      const rightmostTerm = termData.find(
-        (term) => term.short === interval[interval.length - 1]
-      );
-
-      trapezoidalLT[0] = leftmostTerm.l / 100;
-      trapezoidalLT[1] = leftmostTerm.m / 100;
-      trapezoidalLT[2] = rightmostTerm.m / 100;
-      trapezoidalLT[3] = rightmostTerm.r / 100;
+      const rightmostTerm = termData.find((term) => term.short === interval[interval.length - 1]);
+  
+      trapezoidalLT[0] = leftmostTerm.l / maxTermValue;
+      trapezoidalLT[1] = leftmostTerm.m / maxTermValue;
+      trapezoidalLT[2] = rightmostTerm.m / maxTermValue;
+      trapezoidalLT[3] = rightmostTerm.r / maxTermValue;
     } else {
       const term = termData.find((t) => t.short === interval[0]);
-      trapezoidalLT[0] = term.l / 100;
-      trapezoidalLT[1] = term.m / 100;
-      trapezoidalLT[2] = term.m / 100;
-      trapezoidalLT[3] = term.r / 100;
+      trapezoidalLT[0] = term.l / maxTermValue;
+      trapezoidalLT[1] = term.m / maxTermValue;
+      trapezoidalLT[2] = term.m / maxTermValue;
+      trapezoidalLT[3] = term.r / maxTermValue;
     }
-
+  
     return trapezoidalLT;
   }
+  
+
 
   function createTrapezoidalLTTable(trapLtMatrix, container) {
     container.innerHTML = "";

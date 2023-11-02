@@ -69,6 +69,5 @@ document.addEventListener("DOMContentLoaded", function () {
     const alpha = parseFloat(document.getElementById("alphaInp").value);
     const intervalEstimates = calculateIntervalEstimates(alpha, trapLtMatrix);
     createIntervalEstimatesTable(intervalEstimates, estimateLtTableContainer);
-    console.log(intervalEstimates);
   });
 });

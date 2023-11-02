@@ -5,13 +5,16 @@ function calculateNeutralPosition() {
   const neuContainer = document.getElementById("neuContainer");
 
   const probabilities = intervalEstimates.map((row, rowIndex) => {
-    const [I_L, I_R] = row.reduce(
-      ([minLeft, maxRight], [left, right]) => [
-        Math.min(minLeft, parseFloat(left)),
-        Math.max(maxRight, parseFloat(right)),
-      ],
-      [null, null]
-    );
+    let I_L = Infinity;
+    let I_R = -Infinity;
+
+    row.forEach(([leftStr, rightStr]) => {
+      const left = parseFloat(leftStr);
+      const right = parseFloat(rightStr);
+
+      I_L = Math.min(I_L, left);
+      I_R = Math.max(I_R, right);
+    });
 
     const I_neutral = [I_L, I_R];
     const probability = (1 - Math.max((1 - I_L) / (I_R - I_L + 1), 0)).toFixed(
@@ -58,21 +61,22 @@ function calculateAggressiveEstimates(intervalEstimates) {
   let aggrHTML = "<strong>Intervals with aggressive estimates:</strong><br>";
 
   intervalEstimates.forEach((row, rowIndex) => {
-    const Imin = [0, 0];
-    const Imax = [0, 0];
+    let Imin = [Infinity, Infinity];
+    let Imax = [-Infinity, -Infinity];
 
     row.forEach(([leftStr, rightStr]) => {
       const left = parseFloat(leftStr);
       const right = parseFloat(rightStr);
 
-      Imin[0] += left;
-      Imin[1] += right;
-      Imax[0] += left;
-      Imax[1] += right;
+      Imin[0] = Math.min(Imin[0], left);
+      Imin[1] = Math.min(Imin[1], right);
+
+      Imax[0] = Math.max(Imax[0], left);
+      Imax[1] = Math.max(Imax[1], right);
     });
 
-    const I_L = Imin[0] / 2;
-    const I_R = Imax[1] / 2;
+    const I_L = (Imin[0] + Imax[0]) / 2;
+    const I_R = (Imin[1] + Imax[1]) / 2;
 
     const probability = calculateProbability(I_L, I_R);
 
